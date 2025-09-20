@@ -1,0 +1,37 @@
+# application.yml
+
+spring:
+#  datasource:
+#    url: jdbc:postgresql://grads-db.cvmmiqaug922.ap-south-1.rds.amazonaws.com:5432/grads-db
+#    username: postgres
+#    password: GradsDatabase1
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
+
+
+  servlet:
+    multipart:
+      max-file-size: 500MB
+      max-request-size: 500MB
+
+
+aws:
+  region: ${AWS_REGION}
+  s3:
+    bucket-name: ${AWS_S3_BUCKET_NAMEs}
+    access-key: ${AWS_ACCESS_KEY}
+    secret-key: ${AWS_SECRET_KEY}
+#    video-folder: free-courses-videos
+  cloudfront:
+    domain: ${AWS_CLOUDFRONT_DOMAIN}
+
