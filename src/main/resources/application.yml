@@ -1,10 +1,7 @@
 # application.yml
 
 spring:
-#  datasource:
-#    url: jdbc:postgresql://grads-db.cvmmiqaug922.ap-south-1.rds.amazonaws.com:5432/grads-db
-#    username: postgres
-#    password: GradsDatabase1
+
   datasource:
     url: ${DB_URL}
     username: ${DB_USERNAME}
@@ -28,7 +25,7 @@ spring:
 aws:
   region: ${AWS_REGION}
   s3:
-    bucket-name: ${AWS_S3_BUCKET_NAMEs}
+    bucket-name: ${AWS_S3_BUCKET_NAME}
     access-key: ${AWS_ACCESS_KEY}
     secret-key: ${AWS_SECRET_KEY}
 #    video-folder: free-courses-videos
