@@ -1,0 +1,40 @@
+version: 0.2
+
+phases:
+  install:
+    commands:
+      - echo Installing Java 21...
+      - yum update -y
+      - yum install -y java-21-amazon-corretto-devel
+      - export JAVA_HOME=/usr/lib/jvm/java-21-amazon-corretto
+      - export PATH=$JAVA_HOME/bin:$PATH
+      - alternatives --set java /usr/lib/jvm/java-21-amazon-corretto/bin/java
+      - alternatives --set javac /usr/lib/jvm/java-21-amazon-corretto/bin/javac
+      
+  pre_build:
+    commands:
+      - echo Build started on `date`
+      - echo Verifying Java version...
+      - java -version
+      - javac -version
+      - mvn -version
+      
+  build:
+    commands:
+      - echo Build phase started on `date`
+      - echo Compiling the Java application...
+      - export JAVA_HOME=/usr/lib/jvm/java-21-amazon-corretto
+      - export PATH=$JAVA_HOME/bin:$PATH
+      - mvn clean package -DskipTests
+      
+  post_build:
+    commands:
+      - echo Build phase completed on `date`
+      - echo Build completed successfully
+
+artifacts:
+  files:
+    - target/*.jar
+    - appspec.yml
+    - scripts/**/*
+  name: SimpleMavenBuildService-artifacts
