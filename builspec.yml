@@ -1,0 +1,25 @@
+version: 0.2
+
+phases:
+  pre_build:
+    commands:
+      - echo Build started on `date`
+      - echo Setting up Java 21 environment
+      
+  build:
+    commands:
+      - echo Build phase started on `date`
+      - echo Compiling the Java application...
+      - mvn clean package -DskipTests
+      
+  post_build:
+    commands:
+      - echo Build phase completed on `date`
+      - echo Build completed successfully
+
+artifacts:
+  files:
+    - target/*.jar
+    - appspec.yml
+    - scripts/**/*
+  name: SimpleMavenBuildService-artifacts
