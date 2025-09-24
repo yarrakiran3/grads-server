@@ -22,7 +22,7 @@ public class CorsConfig {
         // Allow specific origins (add your frontend URLs)
         config.setAllowedOrigins(Arrays.asList(
                 "http://localhost:3000",
-                "http://grads.kirany.space"
+                "https://grads.kirany.space"
 
         ));
 
