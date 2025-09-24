@@ -57,29 +57,34 @@ public class CorsConfig {
 //        return new CorsFilter(source);
 //    }
 
-//    @Bean
-//    public CorsConfigurationSource corsConfigurationSource() {
-//        CorsConfiguration configuration = new CorsConfiguration();
-//
-//        configuration.setAllowedOrigins(Arrays.asList(
-//                "http://localhost:3000",
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+
+        configuration.setAllowedOrigins(Arrays.asList(
+                "*"
+
+        ));
+//        "http://localhost:3000",
 //                "https://grads.kirany.space"
-//
-//        ));
-//
-//        configuration.setAllowedMethods(Arrays.asList(
-//                "GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"
-//        ));
-//
-//        configuration.setAllowedHeaders(Arrays.asList(
-//                "Authorization", "Content-Type", "X-Requested-With"
-//        ));
-//
-//        configuration.setAllowCredentials(true);
-//
-//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-//        source.registerCorsConfiguration("/**", configuration);
-//
-//        return source;
-//    }
+
+        configuration.setAllowedMethods(Arrays.asList(
+                "*"
+        ));
+
+//        "GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"
+
+        configuration.setAllowedHeaders(Arrays.asList(
+                "*"
+        ));
+
+//        "Authorization", "Content-Type", "X-Requested-With"
+
+        configuration.setAllowCredentials(true);
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+
+        return source;
+    }
 }
