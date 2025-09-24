@@ -1,5 +1,3 @@
-
-// SecurityConfig.java
 package com.grads.config;
 
 import com.grads.security.JwtAuthenticationEntryPoint;
@@ -18,11 +16,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-
-import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity
@@ -32,24 +25,22 @@ public class SecurityConfig {
 
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
-    private final  CorsConfigurationSource corsConfigurationSource;
+
+    // Remove this line - we're not using CORS in Spring Security anymore
+    // private final CorsConfigurationSource corsConfigurationSource;
+
     private static final String[] PUBLIC_URLS = {
             "/api/auth/**",
             "/api/public/**",
             "/actuator/**",
             "/api/videos/**",
             "/api/course/**",
-                    "/api/test/**"
-
+            "/api/test/**"
     };
-
-
-
-
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.cors(cors -> cors.configurationSource(corsConfigurationSource))
+        http.cors(AbstractHttpConfigurer::disable)  // Disable CORS in Spring Security
                 .csrf(AbstractHttpConfigurer::disable)
                 .exceptionHandling(ex -> ex.authenticationEntryPoint(jwtAuthenticationEntryPoint))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
