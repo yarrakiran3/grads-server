@@ -1,12 +1,15 @@
 package com.grads.config;
 
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.Ordered;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.Arrays;
@@ -57,7 +60,29 @@ import java.util.Arrays;
 //        return new CorsFilter(source);
 //    }
 @Configuration
-public class CorsConfig {
+@EnableWebMvc
+public class CorsConfig implements WebMvcConfigurer {
+
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**")
+                .allowedOrigins(
+                        "http://localhost:3000",
+                        "https://grads.kirany.space",
+                        "http://api.kirany.space",
+                        "https://api.kirany.space"
+                )
+                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH")
+                .allowedHeaders("*")
+                .allowCredentials(true)
+                .exposedHeaders(
+                        "Access-Control-Allow-Origin",
+                        "Access-Control-Allow-Credentials",
+                        "Authorization",
+                        "Content-Type"
+                )
+                .maxAge(3600);
+    }
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
@@ -74,35 +99,16 @@ public class CorsConfig {
                 "GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"
         ));
 
-        // Add all the headers that browsers commonly send
-//        configuration.setAllowedHeaders(Arrays.asList(
-//                "Authorization",
-//                "Content-Type",
-//                "X-Requested-With",
-//                "Accept",
-//                "Accept-Encoding",
-//                "Accept-Language",
-//                "Origin",
-//                "Referer",
-//                "User-Agent",
-//                "Access-Control-Request-Method",
-//                "Access-Control-Request-Headers"
-//        ));
-
-        // Or use this simpler approach to allow all headers
-         configuration.setAllowedHeaders(Arrays.asList("*"));
-
+        configuration.setAllowedHeaders(Arrays.asList("*"));
         configuration.setAllowCredentials(true);
 
-        // Expose headers that client can access
         configuration.setExposedHeaders(Arrays.asList(
                 "Access-Control-Allow-Origin",
                 "Access-Control-Allow-Credentials",
-                "Authorization"
+                "Authorization",
+                "Content-Type"
         ));
 
-
-        // Add max age for preflight caching
         configuration.setMaxAge(3600L);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
@@ -111,22 +117,13 @@ public class CorsConfig {
         return source;
     }
 
-    // Additional CORS configuration as a backup
     @Bean
-    public WebMvcConfigurer webMvcConfigurer() {
-        return new WebMvcConfigurer() {
-            @Override
-            public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**")
-                        .allowedOrigins(
-                                "http://localhost:3000",
-                                "https://grads.kirany.space"
-                        )
-                        .allowedMethods("*")
-                        .allowedHeaders("*")
-                        .allowCredentials(true)
-                        .maxAge(3600);
-            }
-        };
+    public FilterRegistrationBean<CorsFilter> corsFilter() {
+        FilterRegistrationBean<CorsFilter> bean = new FilterRegistrationBean<>(
+                new CorsFilter(corsConfigurationSource())
+        );
+        bean.setOrder(Ordered.HIGHEST_PRECEDENCE);
+        return bean;
     }
 }
+
