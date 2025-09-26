@@ -71,22 +71,22 @@ public class CorsConfig {
         ));
 
         // Add all the headers that browsers commonly send
-        configuration.setAllowedHeaders(Arrays.asList(
-                "Authorization",
-                "Content-Type",
-                "X-Requested-With",
-                "Accept",
-                "Accept-Encoding",
-                "Accept-Language",
-                "Origin",
-                "Referer",
-                "User-Agent",
-                "Access-Control-Request-Method",
-                "Access-Control-Request-Headers"
-        ));
+//        configuration.setAllowedHeaders(Arrays.asList(
+//                "Authorization",
+//                "Content-Type",
+//                "X-Requested-With",
+//                "Accept",
+//                "Accept-Encoding",
+//                "Accept-Language",
+//                "Origin",
+//                "Referer",
+//                "User-Agent",
+//                "Access-Control-Request-Method",
+//                "Access-Control-Request-Headers"
+//        ));
 
         // Or use this simpler approach to allow all headers
-        // configuration.addAllowedHeader("*");
+         configuration.addAllowedHeader("*");
 
         configuration.setAllowCredentials(true);
 
