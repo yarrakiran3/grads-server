@@ -62,23 +62,21 @@ public class CorsConfig {
         CorsConfiguration configuration = new CorsConfiguration();
 
         configuration.setAllowedOrigins(Arrays.asList(
-                "*"
 
+        "http://localhost:3000",
+                "https://grads.kirany.space"
         ));
-//        "http://localhost:3000",
-//                "https://grads.kirany.space"
+
 
         configuration.setAllowedMethods(Arrays.asList(
-                "*"
+        "GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"
         ));
 
-//        "GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"
 
         configuration.setAllowedHeaders(Arrays.asList(
-                "*"
+        "Authorization", "Content-Type", "X-Requested-With"
         ));
 
-//        "Authorization", "Content-Type", "X-Requested-With"
 
         configuration.setAllowCredentials(true);
 
