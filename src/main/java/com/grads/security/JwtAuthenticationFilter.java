@@ -37,7 +37,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         System.out.println("Origin: " + request.getHeader("Origin"));
 
         // Skip JWT validation for OPTIONS requests
-        if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
+        if ("option".equalsIgnoreCase(request.getMethod())) {
             System.out.println("Skipping OPTIONS request in JWT filter");
             filterChain.doFilter(request, response);
             return;

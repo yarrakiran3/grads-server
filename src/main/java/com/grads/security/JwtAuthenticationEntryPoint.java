@@ -23,7 +23,7 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
         System.out.println("Exception: " + authException.getMessage());
 
         // Don't handle OPTIONS requests in the entry point
-        if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
+        if ("options".equalsIgnoreCase(request.getMethod())) {
             System.out.println("Skipping OPTIONS in AuthenticationEntryPoint");
             response.setStatus(HttpServletResponse.SC_OK);
             return;
