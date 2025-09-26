@@ -6,6 +6,8 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.Arrays;
 
@@ -63,7 +65,9 @@ public class CorsConfig {
 
         configuration.setAllowedOrigins(Arrays.asList(
                 "http://localhost:3000",
-                "https://grads.kirany.space"
+                "https://grads.kirany.space",
+                "http://api.kirany.space",
+                "https://api.kirany.space"
         ));
 
         configuration.setAllowedMethods(Arrays.asList(
@@ -86,9 +90,17 @@ public class CorsConfig {
 //        ));
 
         // Or use this simpler approach to allow all headers
-         configuration.addAllowedHeader("*");
+         configuration.setAllowedHeaders(Arrays.asList("*"));
 
         configuration.setAllowCredentials(true);
+
+        // Expose headers that client can access
+        configuration.setExposedHeaders(Arrays.asList(
+                "Access-Control-Allow-Origin",
+                "Access-Control-Allow-Credentials",
+                "Authorization"
+        ));
+
 
         // Add max age for preflight caching
         configuration.setMaxAge(3600L);
@@ -97,5 +109,24 @@ public class CorsConfig {
         source.registerCorsConfiguration("/**", configuration);
 
         return source;
+    }
+
+    // Additional CORS configuration as a backup
+    @Bean
+    public WebMvcConfigurer webMvcConfigurer() {
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/**")
+                        .allowedOrigins(
+                                "http://localhost:3000",
+                                "https://grads.kirany.space"
+                        )
+                        .allowedMethods("*")
+                        .allowedHeaders("*")
+                        .allowCredentials(true)
+                        .maxAge(3600);
+            }
+        };
     }
 }
