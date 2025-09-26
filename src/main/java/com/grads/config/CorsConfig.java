@@ -9,8 +9,6 @@ import org.springframework.web.filter.CorsFilter;
 
 import java.util.Arrays;
 
-@Configuration
-public class CorsConfig {
 
 //    @Bean
 //    public CorsFilter corsFilter() {
@@ -56,29 +54,44 @@ public class CorsConfig {
 //
 //        return new CorsFilter(source);
 //    }
+@Configuration
+public class CorsConfig {
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
 
         configuration.setAllowedOrigins(Arrays.asList(
-
-        "http://localhost:3000",
+                "http://localhost:3000",
                 "https://grads.kirany.space"
         ));
 
-
         configuration.setAllowedMethods(Arrays.asList(
-        "GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"
+                "GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"
         ));
 
-
+        // Add all the headers that browsers commonly send
         configuration.setAllowedHeaders(Arrays.asList(
-        "Authorization", "Content-Type", "X-Requested-With"
+                "Authorization",
+                "Content-Type",
+                "X-Requested-With",
+                "Accept",
+                "Accept-Encoding",
+                "Accept-Language",
+                "Origin",
+                "Referer",
+                "User-Agent",
+                "Access-Control-Request-Method",
+                "Access-Control-Request-Headers"
         ));
 
+        // Or use this simpler approach to allow all headers
+        // configuration.addAllowedHeader("*");
 
         configuration.setAllowCredentials(true);
+
+        // Add max age for preflight caching
+        configuration.setMaxAge(3600L);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
