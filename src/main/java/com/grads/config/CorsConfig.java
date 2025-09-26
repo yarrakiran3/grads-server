@@ -60,56 +60,16 @@ import java.util.Arrays;
 //        return new CorsFilter(source);
 //    }
 @Configuration
-@EnableWebMvc
-public class CorsConfig implements WebMvcConfigurer {
-
-    @Override
-    public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**")
-                .allowedOrigins(
-                        "http://localhost:3000",
-                        "https://grads.kirany.space",
-                        "http://api.kirany.space",
-                        "https://api.kirany.space"
-                )
-                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH")
-                .allowedHeaders("*")
-                .allowCredentials(true)
-                .exposedHeaders(
-                        "Access-Control-Allow-Origin",
-                        "Access-Control-Allow-Credentials",
-                        "Authorization",
-                        "Content-Type"
-                )
-                .maxAge(3600);
-    }
+public class CorsConfig {
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
 
-        configuration.setAllowedOrigins(Arrays.asList(
-                "http://localhost:3000",
-                "https://grads.kirany.space",
-                "http://api.kirany.space",
-                "https://api.kirany.space"
-        ));
-
-        configuration.setAllowedMethods(Arrays.asList(
-                "GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"
-        ));
-
+        configuration.setAllowedOriginPatterns(Arrays.asList("*"));
+        configuration.setAllowedMethods(Arrays.asList("*"));
         configuration.setAllowedHeaders(Arrays.asList("*"));
         configuration.setAllowCredentials(true);
-
-        configuration.setExposedHeaders(Arrays.asList(
-                "Access-Control-Allow-Origin",
-                "Access-Control-Allow-Credentials",
-                "Authorization",
-                "Content-Type"
-        ));
-
-        configuration.setMaxAge(3600L);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
